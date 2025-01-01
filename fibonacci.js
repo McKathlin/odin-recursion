@@ -1,14 +1,14 @@
 module.exports = (function () {
-  const _MAX_MEMO_KEY = 255;
-  let _memo = {};
+  const _MAX_MEMO_INDEX = 255;
+  let _memo = new Array(_MAX_MEMO_INDEX);
 
-  _getMemo = function (key) {
-    return _memo[key] ?? null;
+  _getMemo = function (index) {
+    return _memo[index] ?? null;
   }
 
-  _setMemo = function (key, value) {
-    if (key <= _MAX_MEMO_KEY) {
-      _memo[key] = value;
+  _setMemo = function (index, value) {
+    if (index <= _MAX_MEMO_INDEX) {
+      _memo[index] = value;
       return true;
     } else {
       return false;
