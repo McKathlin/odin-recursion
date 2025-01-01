@@ -1,39 +1,37 @@
 module.exports = (function () {
-  const _MAX_MEMO_INDEX = 255;
-  let _memo = new Array(_MAX_MEMO_INDEX);
-
-  _getMemo = function (index) {
-    return _memo[index] ?? null;
-  }
-
-  _setMemo = function (index, value) {
-    if (index <= _MAX_MEMO_INDEX) {
-      _memo[index] = value;
-      return true;
-    } else {
-      return false;
+  const fibs = function(n) {
+    // Edge cases: very short sequences
+    if (n <= 0) {
+      return [];
     }
-  }
-
-  const fibonacci = function (n) {
-    // Basis case
-    if (n <= 1) {
-      return n;
+    if (n == 1) {
+      return [0];
     }
 
-    // Check memo
-    let memoValue = _getMemo(n);
-    if (memoValue !== null) {
-      return memoValue;
+    // General case: build from a basis array
+    let arr = [0, 1];
+    for (let i = arr.length; i < n; i++) {
+      let nextElement = arr[i - 2] + arr[i - 1];
+      arr.push(nextElement);
+    }
+    return arr;
+  };
+
+  const fibsRec = function(n) {
+    // Basis case: minimal sized sequence
+    if (n == 1) {
+      return [0];
+    }
+    if (n == 2) {
+      return [0, 1];
     }
 
-    // Calculate
-    const result = fibonacci(n - 1) + fibonacci(n - 2);
+    let prevN = n - 1;
+    let arr = fibsRec(prevN);
+    let nextElement = arr[prevN - 1] + arr[prevN - 2];
+    arr.push(nextElement);
+    return arr;
+  };
 
-    // Add to memo
-    _setMemo(n, result);
-    return result;
-  }
-
-  return fibonacci;
+  return { fibs, fibsRec };
 }());
